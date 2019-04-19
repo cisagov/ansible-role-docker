@@ -1,5 +1,4 @@
 ---
----
 # tasks file for docker
 - name: Install prerequisites so apt can use a repo over HTTPS
   package:
