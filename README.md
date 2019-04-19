@@ -31,7 +31,7 @@ Here's how to use it in a playbook:
   roles:
     - docker
 ```
-         
+
 ## Contributing ##
 
 We welcome contributions!  Please see [here](CONTRIBUTING.md) for
