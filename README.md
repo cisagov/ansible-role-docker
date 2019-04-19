@@ -1,7 +1,8 @@
-# ansible-role-docker :whale: #
+# ansible-role-docker #
 
-An Ansible role for installing and configuring
-[`docker`](https://www.docker.com/).
+[![Build Status](https://travis-ci.com/cisagov/ansible-role-docker.svg?branch=develop)](https://travis-ci.com/cisagov/ansible-role-docker)
+
+An Ansible role for installing [Docker](https://www.docker.com/).
 
 ## Requirements ##
 
@@ -21,11 +22,18 @@ None.
 
 Here's how to use it in a playbook:
 
-    - hosts: all
-      become: yes
-      become_method: sudo
-      roles:
-         - docker
+```yaml
+- hosts: all
+  become: yes
+  become_method: sudo
+  roles:
+    - docker
+```
+         
+## Contributing ##
+
+We welcome contributions!  Please see [here](CONTRIBUTING.md) for
+details.
 
 ## License ##
 
@@ -42,4 +50,4 @@ with this waiver of copyright interest.
 
 ## Author Information ##
 
-Kyle Evers <kyle.evers@trio.dhs.gov>
+Kyle Evers - <kyle.evers@trio.dhs.gov>
