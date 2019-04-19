@@ -12,6 +12,10 @@ This role uses the `package` Ansible module, so [its
 requirements](https://docs.ansible.com/ansible/latest/modules/package_module.html#requirements)
 apply.
 
+This role also depends on the
+[cisagov/ansible-role-pip](https://github.com/cisagov/ansible-role-pip)
+Ansible role.
+
 ## Role Variables ##
 
 None.
