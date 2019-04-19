@@ -8,7 +8,16 @@ testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
 ).get_hosts("all")
 
 
-@pytest.mark.parametrize("x", [True])
-def test_packages(host, x):
-    """A dummy test, just to show what one would look like"""
-    assert x
+@pytest.mark.parametrize("pkg", ["docker-ce"])
+def test_packages(host, pkg):
+    assert host.package(pkg).is_installed
+
+
+@pytest.mark.parametrize("serv", ["docker"])
+def test_services(host, serv):
+    assert host.service(serv).is_enabled
+
+
+@pytest.mark.parametrize("command", ["docker-compose version"])
+def test_command(host, command):
+    assert host.run(command).rc == 0
