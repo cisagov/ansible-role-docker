@@ -16,10 +16,13 @@ def test_packages(host, pkg):
     assert host.package(pkg).is_installed
 
 
-@pytest.mark.parametrize("serv", ["docker"])
-def test_services(host, serv):
-    """Test that appropriate services are running."""
-    assert host.service(serv).is_enabled
+# testinfra currently incorrectly identifies the service provider in
+# our Docker containers because of philpep/testinfra#416, so we have
+# to leave this test commented out for now.
+# @pytest.mark.parametrize("svc", ["docker"])
+# def test_services(host, svc):
+#     """Test that the services were enabled."""
+#     assert host.service(svc).is_enabled
 
 
 @pytest.mark.parametrize("command", ["docker-compose version"])

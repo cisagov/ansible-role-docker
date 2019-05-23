@@ -8,6 +8,14 @@ lint:
 platforms:
   - name: debian9
     image: debian:stretch-slim
+  - name: debian9_systemd
+    image: geerlingguy/docker-debian9-ansible:latest
+    capabilities:
+      - SYS_ADMIN
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    command: /lib/systemd/systemd
+    pre_build_image: yes
 provisioner:
   name: ansible
   lint:
