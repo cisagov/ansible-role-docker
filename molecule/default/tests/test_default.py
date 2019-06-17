@@ -23,6 +23,7 @@ def test_packages(host, pkg):
 # def test_services(host, svc):
 #     """Test that the services were enabled."""
 #     assert host.service(svc).is_enabled
+#     assert host.service(svc).is_running
 
 
 @pytest.mark.parametrize("command", ["docker-compose version"])
