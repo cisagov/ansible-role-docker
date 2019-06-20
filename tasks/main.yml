@@ -45,4 +45,13 @@
 - name: Install docker-compose
   pip:
     executable: pip3
-    name: docker-compose
+    name:
+      - docker-compose
+
+# This is needed when using the Ansible modules docker_image,
+# docker_compose, etc.
+- name: Install docker python library
+  pip:
+    executable: pip3
+    name:
+      - docker
