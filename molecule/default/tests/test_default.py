@@ -26,6 +26,12 @@ def test_packages(host, pkg):
 #     assert host.service(svc).is_running
 
 
+@pytest.mark.parametrize("pkg", ["docker-compose", "docker"])
+def test_pip_packages(host, pkg):
+    """Test that the appropriate pip packages were installed."""
+    assert pkg in host.pip_package.get_packages()
+
+
 @pytest.mark.parametrize("command", ["docker-compose version"])
 def test_command(host, command):
     """Test that appropriate commands are available."""
