@@ -15,7 +15,9 @@
     id: 0EBFCD88
 
 - name: Copy sources list for official Docker package repo
-  copy:
+  vars:
+    release_codename: "{{ ansible_distribution_release }}"
+  template:
     src: docker.list
     dest: /etc/apt/sources.list.d
     mode: 0644
