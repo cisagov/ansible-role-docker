@@ -48,6 +48,23 @@
       - python-backports.ssl-match-hostname
   when: ansible_distribution == "Debian" and ansible_distribution_release == "buster"
 
+# docker-compose fails to start on Debian Buster with this error:
+# Traceback (most recent call last):
+#   File "/usr/local/bin/docker-compose", line 6, in <module>
+#     from compose.cli.main import main
+#   File "/usr/local/lib/python2.7/dist-packages/compose/cli/main.py", line 52, in <module>
+#     from .formatter import ConsoleWarningFormatter
+#   File "/usr/local/lib/python2.7/dist-packages/compose/cli/formatter.py", line 15, in <module>
+#     from backports.shutil_get_terminal_size import get_terminal_size
+# ImportError: No module named shutil_get_terminal_size
+#
+# To fix this, we install python-backports-shutil-get-terminal-size:
+- name: Install python-backports-shutil-get-terminal-size (Debian Buster)
+  package:
+    name:
+      - python-backports-shutil-get-terminal-size
+  when: ansible_distribution == "Debian" and ansible_distribution_release == "buster"
+
 - name: Get official Docker GPG key
   apt_key:
     url: https://download.docker.com/linux/debian/gpg
