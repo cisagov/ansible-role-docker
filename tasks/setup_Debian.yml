@@ -1,0 +1,86 @@
+---
+# setup file for Debian
+
+- name: Install prerequisites so apt can use a repo over HTTPS
+  package:
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg2
+      - software-properties-common
+
+# docker-compose fails to start on Debian Buster with this error:
+# $ docker-compose -h
+# Traceback (most recent call last):
+#   File "/usr/local/bin/docker-compose", line 6, in <module>
+#     from compose.cli.main import main
+#   File "/usr/local/lib/python2.7/dist-packages/compose/cli/main.py", line 17, in <module>
+#     import docker
+#   File "/usr/local/lib/python2.7/dist-packages/docker/__init__.py", line 2, in <module>
+#     from .api import APIClient
+#   File "/usr/local/lib/python2.7/dist-packages/docker/api/__init__.py", line 2, in <module>
+#     from .client import APIClient
+#   File "/usr/local/lib/python2.7/dist-packages/docker/api/client.py", line 10, in <module>
+#     from .build import BuildApiMixin
+#   File "/usr/local/lib/python2.7/dist-packages/docker/api/build.py", line 6, in <module>
+#     from .. import auth
+#   File "/usr/local/lib/python2.7/dist-packages/docker/auth.py", line 9, in <module>
+#     from .utils import config
+#   File "/usr/local/lib/python2.7/dist-packages/docker/utils/__init__.py", line 3, in <module>
+#     from .decorators import check_resource, minimum_version, update_headers
+#   File "/usr/local/lib/python2.7/dist-packages/docker/utils/decorators.py", line 4, in <module>
+#     from . import utils
+#   File "/usr/local/lib/python2.7/dist-packages/docker/utils/utils.py", line 13, in <module>
+#     from .. import tls
+#   File "/usr/local/lib/python2.7/dist-packages/docker/tls.py", line 5, in <module>
+#     from .transport import SSLHTTPAdapter
+#   File "/usr/local/lib/python2.7/dist-packages/docker/transport/__init__.py", line 3, in <module>
+#     from .ssladapter import SSLHTTPAdapter
+#   File "/usr/local/lib/python2.7/dist-packages/docker/transport/ssladapter.py", line 23, in <module>
+#     from backports.ssl_match_hostname import match_hostname
+# ImportError: No module named ssl_match_hostname
+#
+# To fix this, we use the following workaround:
+#  https://github.com/docker/docker-py/issues/1502#issuecomment-509898861
+- name: Install python-backports.ssl-match-hostname (Debian Buster)
+  package:
+    name:
+      - python-backports.ssl-match-hostname
+  when:
+    - ansible_distribution_release == "buster"
+
+# docker-compose fails to start on Debian Buster with this error:
+# Traceback (most recent call last):
+#   File "/usr/local/bin/docker-compose", line 6, in <module>
+#     from compose.cli.main import main
+#   File "/usr/local/lib/python2.7/dist-packages/compose/cli/main.py", line 52, in <module>
+#     from .formatter import ConsoleWarningFormatter
+#   File "/usr/local/lib/python2.7/dist-packages/compose/cli/formatter.py", line 15, in <module>
+#     from backports.shutil_get_terminal_size import get_terminal_size
+# ImportError: No module named shutil_get_terminal_size
+#
+# To fix this, we install python-backports-shutil-get-terminal-size:
+- name: Install python-backports-shutil-get-terminal-size (Debian Buster)
+  package:
+    name:
+      - python-backports-shutil-get-terminal-size
+  when:
+    - ansible_distribution_release == "buster"
+
+- name: Get official Docker GPG key
+  apt_key:
+    url: https://download.docker.com/linux/debian/gpg
+    id: 0EBFCD88
+
+- name: Copy sources list for official Docker package repo
+  vars:
+    release_codename: "{{ ansible_distribution_release }}"
+  template:
+    src: docker.list
+    dest: /etc/apt/sources.list.d
+    mode: 0644
+
+- name: Update the cache with the Docker goodness
+  package:
+    update_cache: yes
