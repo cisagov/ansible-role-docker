@@ -6,7 +6,7 @@ driver:
 lint:
   name: yamllint
 platforms:
-  # Amazon Linux 2 does not appear to provide OpenVPN
+  # Amazon Linux 2 doesn't appear to support docker
   # - name: amazonlinux2_systemd
   #   image: geerlingguy/docker-amazonlinux2-ansible:latest
   #   privileged: yes
