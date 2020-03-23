@@ -50,6 +50,7 @@
 # docker_image, docker_compose, etc.
 - name: Install docker-compose and the docker python library
   pip:
+    executable: pip3
     name:
       - docker[tls]
       - docker-compose
