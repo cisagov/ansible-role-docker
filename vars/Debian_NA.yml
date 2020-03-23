@@ -1,5 +1,5 @@
 ---
-# vars file for Debian
+# vars file for Debian Bullseye (AKA NA)
 
 # The packages to install
 package_names:
