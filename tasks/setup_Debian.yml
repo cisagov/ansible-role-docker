@@ -1,0 +1,24 @@
+---
+# setup file for Debian
+
+- name: Install prerequisites so apt can use a repo over HTTPS (Debian)
+  package:
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg2
+      - software-properties-common
+
+- name: Get official Docker repo GPG key (Debian)
+  apt_key:
+    url: https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg
+
+- name: Add the official Docker repo (Debian)
+  apt_repository:
+    repo: deb [arch=amd64] https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable
+    state: present
+
+- name: Update the cache with the Docker goodness (Debian)
+  package:
+    update_cache: yes
