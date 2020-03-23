@@ -12,26 +12,28 @@ testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
 ).get_hosts("all")
 
 
-@pytest.mark.parametrize("pkg", ["docker-ce"])
-def test_packages(host, pkg):
+def test_packages(host):
     """Test that the appropriate packages were installed."""
-    assert host.package(pkg).is_installed
+    distribution = host.system_info.distribution
+    codename = host.system_info.codename
+    if (distribution == "debian" and codename is None) or distribution == "kali":
+        # Debian Bullseye is not yet supported by the official Docker
+        # package repo
+        assert host.package("docker.io").is_installed
+    else:
+        assert host.package("docker-ce").is_installed
 
 
-# testinfra currently incorrectly identifies the service provider in
-# our Docker containers because of philpep/testinfra#416, so we have
-# to leave this test commented out for now.
-# @pytest.mark.parametrize("svc", ["docker"])
-# def test_services(host, svc):
-#     """Test that the services were enabled."""
-#     assert host.service(svc).is_enabled
-#     assert host.service(svc).is_running
+@pytest.mark.parametrize("svc", ["docker"])
+def test_services(host, svc):
+    """Test that the services were enabled."""
+    assert host.service(svc).is_enabled
 
 
 @pytest.mark.parametrize("pkg", ["docker-compose", "docker"])
 def test_pip_packages(host, pkg):
     """Test that the appropriate pip packages were installed."""
-    assert pkg in host.pip_package.get_packages()
+    assert pkg in host.pip_package.get_packages(pip_path="pip3")
 
 
 @pytest.mark.parametrize("command", ["docker-compose version"])
