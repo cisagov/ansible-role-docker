@@ -1,0 +1,15 @@
+---
+# setup file for RedHat
+
+# For some reason the development tools do not get installed along
+# with pip in Fedora 29
+- name: Install development tools (RedHat)
+  package:
+    name:
+      - "@Development Tools"
+
+- name: Add docker-ce repository (RedHat)
+  yum_repository:
+    name: docker-ce
+    description: Docker-CE yum repo
+    baseurl: https://download.docker.com/linux/fedora/$releasever/$basearch/stable

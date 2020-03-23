@@ -3,4 +3,4 @@
 
 # The packages to install
 package_names:
-  - docker
+  - docker-ce

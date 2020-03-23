@@ -1,7 +1,7 @@
 ---
 # setup file for Debian
 
-- name: Install prerequisites so apt can use a repo over HTTPS
+- name: Install prerequisites so apt can use a repo over HTTPS (Debian)
   package:
     name:
       - apt-transport-https
@@ -43,12 +43,12 @@
 #
 # To fix this, we use the following workaround:
 #  https://github.com/docker/docker-py/issues/1502#issuecomment-509898861
-- name: Install python-backports.ssl-match-hostname (Debian Buster)
-  package:
-    name:
-      - python-backports.ssl-match-hostname
-  when:
-    - ansible_distribution_release == "buster"
+# - name: Install python-backports.ssl-match-hostname (Debian Buster)
+#   package:
+#     name:
+#       - python-backports.ssl-match-hostname
+#   when:
+#     - ansible_distribution_release == "buster"
 
 # docker-compose fails to start on Debian Buster with this error:
 # Traceback (most recent call last):
@@ -61,26 +61,22 @@
 # ImportError: No module named shutil_get_terminal_size
 #
 # To fix this, we install python-backports-shutil-get-terminal-size:
-- name: Install python-backports-shutil-get-terminal-size (Debian Buster)
-  package:
-    name:
-      - python-backports-shutil-get-terminal-size
-  when:
-    - ansible_distribution_release == "buster"
+# - name: Install python-backports-shutil-get-terminal-size (Debian Buster)
+#   package:
+#     name:
+#       - python-backports-shutil-get-terminal-size
+#   when:
+#     - ansible_distribution_release == "buster"
 
-- name: Get official Docker GPG key
+- name: Get official Docker repo GPG key
   apt_key:
-    url: https://download.docker.com/linux/debian/gpg
-    id: 0EBFCD88
+    url: https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg
 
-- name: Copy sources list for official Docker package repo
-  vars:
-    release_codename: "{{ ansible_distribution_release }}"
-  template:
-    src: docker.list
-    dest: /etc/apt/sources.list.d
-    mode: 0644
+- name: Add the official Docker repo (Debian)
+  apt_repository:
+    repo: deb [arch=amd64] https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable
+    state: present
 
-- name: Update the cache with the Docker goodness
+- name: Update the cache with the Docker goodness (Debian)
   package:
     update_cache: yes

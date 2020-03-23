@@ -1,11 +1,18 @@
 ---
 # tasks file for docker
 
-- name: Load setup tasks file for Debian, if necessary
+- name: Load setup tasks file for adding the official Docker PPA to Debian
   include: setup_Debian.yml
   when:
-    - ansible_distribution == "Debian"
-    - ansible_distribution_version == "9" or ansible_distribution_version == "10"
+    - ansible_os_family == "Debian"
+    # The docker-ce PPA does not yet support Debian Bullseye
+    # (identified as version NA)
+    - ansible_distribution != "Debian" or ansible_distribution_version != "NA"
+
+- name: Load setup tasks file for adding the official Docker package repo to RedHat
+  include: setup_RedHat.yml
+  when:
+    - ansible_os_family == "RedHat"
 
 - name: Load var file with package names based on the OS type
   include_vars: "{{ lookup('first_found', params) }}"
@@ -18,8 +25,8 @@
         # The OS family and distribution for Kali is "Kali GNU/Linux",
         # which is not an allowable file name in Linux due to the
         # slash.  We will allow Kali to fall through and use the
-        # Debian vars file.
-        - Debian.yml
+        # Debian 11 vars file.
+        - Debian_NA.yml
       paths:
         - vars
 
@@ -38,16 +45,11 @@
   service:
     name: docker
     enabled: yes
-    state: started
 
-- name: Install docker-compose
-  pip:
-    name:
-      - docker-compose
-
-# This is needed when using the Ansible modules docker_image,
-# docker_compose, etc.
-- name: Install docker python library
+# The docker python library is needed when using the Ansible modules
+# docker_image, docker_compose, etc.
+- name: Install docker-compose and the docker python library
   pip:
     name:
       - docker[tls]
+      - docker-compose
