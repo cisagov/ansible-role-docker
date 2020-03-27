@@ -28,7 +28,7 @@
         # Debian 11 vars file.
         - Debian_NA.yml
       paths:
-        - vars
+        - "{{ role_path }}/vars"
 
 - name: Install docker
   package:
