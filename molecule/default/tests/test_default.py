@@ -20,6 +20,8 @@ def test_packages(host):
         # Debian Bullseye is not yet supported by the official Docker
         # package repo
         assert host.package("docker.io").is_installed
+    elif distribution == "fedora":
+        assert host.package("moby-engine").is_installed
     else:
         assert host.package("docker-ce").is_installed
 
