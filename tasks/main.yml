@@ -9,11 +9,6 @@
     # (identified as version NA)
     - ansible_distribution != "Debian" or ansible_distribution_version != "NA"
 
-- name: Load setup tasks file for adding the official Docker package repo to RedHat
-  include: setup_RedHat.yml
-  when:
-    - ansible_os_family == "RedHat"
-
 - name: Load var file with package names based on the OS type
   include_vars: "{{ lookup('first_found', params) }}"
   vars:
