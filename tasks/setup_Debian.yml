@@ -22,3 +22,7 @@
 - name: Update the cache with the Docker goodness (Debian)
   package:
     update_cache: yes
+  # This cache update can cause idempotence to fail, so tell molecule
+  # to ignore any changes this task produces when testing idempotence.
+  tags:
+    - molecule-idempotence-notest
