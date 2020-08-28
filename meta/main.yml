@@ -3,6 +3,8 @@ galaxy_info:
   author: Kyle Evers
   description: Ansible role for installing Docker
   company: CISA Cyber Assessments
+  galaxy_tags:
+    - docker
   license: CC0
   min_ansible_version: 2.0
   platforms:
@@ -26,8 +28,7 @@ galaxy_info:
       versions:
         - bionic
         - xenial
-  galaxy_tags:
-    - docker
+  role_name: docker
 
 dependencies:
   - src: https://github.com/cisagov/ansible-role-pip
