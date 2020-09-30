@@ -9,10 +9,7 @@
     # (identified as version NA)
     - not (ansible_distribution == "Debian" and ansible_distribution_version == "NA")
     # By extension, it does not yet support Kali either.
-    #
-    # Note that match() looks for the substring at the beginning of
-    # the string.
-    - not ansible_distribution is match("[kK]ali")
+    - ansible_distribution != "Kali"
 
 - name: Load var file with package names based on the OS type
   include_vars: "{{ lookup('first_found', params) }}"
