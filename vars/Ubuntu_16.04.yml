@@ -1,9 +1,0 @@
----
-# vars file for Ubuntu 16.04
-
-# The packages to install
-package_names:
-  - docker-ce
-  # For some reason this dev package is missing when we try to build
-  # the wheel for docker-compose
-  - libssl-dev
