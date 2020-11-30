@@ -1,15 +1,14 @@
 ---
-# vars file for RedHat
-
-# The packages to install
+# The system packages to install
 #
 # Note that docker-ce is not currently available on any of our supported
 # Fedora platforms (32 and 33), so we install the next best thing, which
 # is moby-engine.  See https://src.fedoraproject.org/rpms/moby-engine
 # From a usage standpoint, it is transparent, as "docker ..." commands
 # are accepted and passed to moby-engine.
+#
+# https://docs.docker.com/engine/install/fedora/
 package_names:
+  - docker-compose
   - moby-engine
-
-# The pip executable to use
-pip_executable: pip3
+  - python3-docker

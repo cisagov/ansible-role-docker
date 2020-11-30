@@ -1,6 +1,4 @@
 ---
-# tasks file for docker
-
 - name: Load setup tasks file for adding the official Docker PPA to Debian
   include: setup_Debian.yml
   when:
@@ -22,7 +20,7 @@
       paths:
         - "{{ role_path }}/vars"
 
-- name: Install docker
+- name: Install docker, docker-compose, and the Docker Python library
   package:
     name: "{{ package_names }}"
 
@@ -37,12 +35,3 @@
   service:
     name: docker
     enabled: yes
-
-# The docker python library is needed when using the Ansible modules
-# docker_image, docker_compose, etc.
-- name: Install docker-compose and the docker python library
-  pip:
-    executable: "{{ pip_executable }}"
-    name:
-      - docker[tls]
-      - docker-compose

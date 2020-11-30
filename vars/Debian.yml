@@ -1,9 +1,6 @@
 ---
-# vars file for Debian
-
-# The packages to install
+# The system packages to install
 package_names:
   - docker-ce
-
-# The pip executable to use
-pip_executable: pip3
+  - docker-compose
+  - python3-docker

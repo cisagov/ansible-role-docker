@@ -16,26 +16,37 @@ def test_packages(host):
     """Test that the appropriate packages were installed."""
     distribution = host.system_info.distribution
     codename = host.system_info.codename
+
+    # Docker package
     if (distribution == "debian" and codename is None) or distribution == "kali":
         # Debian Bullseye is not yet supported by the official Docker
         # package repo
+        #
+        # https://docs.docker.com/engine/install/debian/
         assert host.package("docker.io").is_installed
     elif distribution == "fedora":
+        # Only Moby is available for Feodra 32 and 33
+        #
+        # https://docs.docker.com/engine/install/fedora/
         assert host.package("moby-engine").is_installed
     else:
         assert host.package("docker-ce").is_installed
+
+    # docker-compose package
+    assert host.package("docker-compose").is_installed
+
+    # Docker python library
+    if distribution == "debian" and codename == "stretch":
+        # Our Stretch AMIs are still using Python 2
+        assert host.package("python-docker").is_installed
+    else:
+        assert host.package("python3-docker").is_installed
 
 
 @pytest.mark.parametrize("svc", ["docker"])
 def test_services(host, svc):
     """Test that the services were enabled."""
     assert host.service(svc).is_enabled
-
-
-@pytest.mark.parametrize("pkg", ["docker-compose", "docker"])
-def test_pip_packages(host, pkg):
-    """Test that the appropriate pip packages were installed."""
-    assert pkg in host.pip_package.get_packages(pip_path="pip3")
 
 
 @pytest.mark.parametrize("command", ["docker-compose version"])
