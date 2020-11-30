@@ -4,3 +4,6 @@
 # The packages to install
 package_names:
   - docker-ce
+
+# The pip executable to use
+pip_executable: pip3

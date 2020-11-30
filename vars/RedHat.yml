@@ -10,3 +10,6 @@
 # are accepted and passed to moby-engine.
 package_names:
   - moby-engine
+
+# The pip executable to use
+pip_executable: pip3
