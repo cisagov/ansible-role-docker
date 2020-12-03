@@ -5,7 +5,7 @@
     - ansible_os_family == "Debian"
     # The docker-ce PPA does not yet support Debian Bullseye
     # (identified as version NA)
-    - not (ansible_distribution == "Debian" and ansible_distribution_version == "NA")
+    - not (ansible_distribution == "Debian" and ansible_distribution_version|lower == "na")
     # By extension, it does not yet support Kali either.
     - ansible_distribution != "Kali"
 
@@ -20,9 +20,23 @@
       paths:
         - "{{ role_path }}/vars"
 
-- name: Install docker, docker-compose, and the Docker Python library
+- name: >
+    Install docker, docker-compose, and the Docker Python library (not
+    Debian Stretch)
   package:
     name: "{{ package_names }}"
+  when:
+    - ansible_distribution != "Debian" or ansible_distribution_release|lower != "stretch"
+
+- name: >
+    Install docker, docker-compose, and the Docker Python library (Debian
+    Stretch)
+  package:
+    default_release: "{{ ansible_distribution_release }}-backports"
+    name: "{{ package_names }}"
+  when:
+    - ansible_distribution == "Debian"
+    - ansible_distribution_release|lower == "stretch"
 
 # Unless you do this, systemd can sometimes get confused when you try
 # to start a service you just installed
