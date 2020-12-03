@@ -3,4 +3,4 @@
 package_names:
   - docker-ce
   - docker-compose
-  - python3-docker
+  - python-docker

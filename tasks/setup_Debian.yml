@@ -1,5 +1,5 @@
 ---
-# setup file for Debian
+# Setup for installing Docker on Debian from the official Docker repo
 
 - name: Install prerequisites so apt can use a repo over HTTPS (Debian)
   package:
