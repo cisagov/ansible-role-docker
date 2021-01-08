@@ -1,6 +1,7 @@
 ---
 - name: Load setup tasks file for adding the official Docker PPA to Debian
-  include: setup_Debian.yml
+  include_tasks:
+    file: setup_Debian.yml
   when:
     - ansible_os_family == "Debian"
     # The docker-ce PPA does not yet support Debian Bullseye
