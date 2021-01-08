@@ -18,7 +18,9 @@ def test_packages(host):
     codename = host.system_info.codename
 
     # Docker package
-    if (distribution == "debian" and codename == "bullseye") or distribution == "kali":
+    if (
+        distribution == "debian" and (codename == "bullseye" or codename is None)
+    ) or distribution == "kali":
         # Debian Bullseye is not yet supported by the official Docker
         # package repo
         #
