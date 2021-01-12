@@ -1,11 +1,1 @@
----
-# The system packages to install
-#
-# Note that Debian Bullseye is not yet supported by the official
-# Docker package repo.
-#
-# https://docs.docker.com/engine/install/debian/
-package_names:
-  - docker.io
-  - docker-compose
-  - python3-docker
+Debian_bullseye.yml
