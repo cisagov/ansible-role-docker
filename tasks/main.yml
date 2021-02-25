@@ -1,6 +1,6 @@
 ---
 - name: Load setup tasks file for adding the official Docker PPA to Debian
-  include_tasks:
+  ansible.builtin.include_tasks:
     file: setup_Debian.yml
   when:
     - ansible_os_family == "Debian"
@@ -11,7 +11,7 @@
     - ansible_distribution != "Kali"
 
 - name: Load var file with package names based on the OS type
-  include_vars: "{{ lookup('first_found', params) }}"
+  ansible.builtin.include_vars: "{{ lookup('first_found', params) }}"
   vars:
     params:
       files:
@@ -24,7 +24,7 @@
 - name: >
     Install docker, docker-compose, and the Docker Python library (not
     Debian Stretch)
-  package:
+  ansible.builtin.package:
     name: "{{ package_names }}"
   when:
     - ansible_distribution != "Debian" or ansible_distribution_release != "stretch"
@@ -32,7 +32,7 @@
 - name: >
     Install docker, docker-compose, and the Docker Python library (Debian
     Stretch)
-  package:
+  ansible.builtin.package:
     default_release: "{{ ansible_distribution_release }}-backports"
     name: "{{ package_names }}"
   when:
@@ -42,11 +42,11 @@
 # Unless you do this, systemd can sometimes get confused when you try
 # to start a service you just installed
 - name: Systemd daemon-reload
-  systemd:
+  ansible.builtin.systemd:
     daemon_reload: true
   when: ansible_service_mgr == "systemd"
 
 - name: Enable docker
-  service:
+  ansible.builtin.service:
     name: docker
     enabled: yes
