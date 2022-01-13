@@ -19,9 +19,9 @@ def test_packages(host):
 
     # Docker package
     if (
-        distribution == "debian" and (codename == "bullseye" or codename is None)
+        distribution == "debian" and (codename == "bookworm" or codename is None)
     ) or distribution == "kali":
-        # Debian Bullseye is not yet supported by the official Docker
+        # Debian Bookworm is not yet supported by the official Docker
         # package repo
         #
         # https://docs.docker.com/engine/install/debian/
