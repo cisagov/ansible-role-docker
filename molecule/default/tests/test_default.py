@@ -21,7 +21,7 @@ def test_packages(host):
         if codename in ["stretch"]:
             assert all(
                 [
-                    host.package(pkg)
+                    host.package(pkg).is_installed
                     for pkg in [
                         "docker-ce",
                         "docker-compose",
@@ -32,7 +32,7 @@ def test_packages(host):
         elif codename in ["buster", "bullseye"]:
             assert all(
                 [
-                    host.package(pkg)
+                    host.package(pkg).is_installed
                     for pkg in [
                         "docker-ce",
                         "docker-compose",
@@ -44,7 +44,7 @@ def test_packages(host):
         elif codename in ["bookworm"]:
             assert all(
                 [
-                    host.package(pkg)
+                    host.package(pkg).is_installed
                     for pkg in ["docker.io", "docker-compose", "python3-docker"]
                 ]
             )
@@ -53,14 +53,14 @@ def test_packages(host):
     elif distribution in ["kali"]:
         assert all(
             [
-                host.package(pkg)
+                host.package(pkg).is_installed
                 for pkg in ["docker.io", "docker-compose", "python3-docker"]
             ]
         )
     elif distribution in ["ubuntu"]:
         assert all(
             [
-                host.package(pkg)
+                host.package(pkg).is_installed
                 for pkg in [
                     "docker-ce",
                     "docker-compose",
@@ -72,7 +72,7 @@ def test_packages(host):
     elif distribution in ["amzn", "fedora"]:
         assert all(
             [
-                host.package(pkg)
+                host.package(pkg).is_installed
                 for pkg in ["docker-compose", "moby-engine", "python3-docker"]
             ]
         )
