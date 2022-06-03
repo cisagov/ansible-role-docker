@@ -84,8 +84,7 @@ def test_services(host, svc):
     assert host.service(svc).is_enabled
 
 
-@pytest.mark.parametrize("command", ["docker-compose version"])
-def test_commands(host, command):
+def test_commands(host):
     """Test that appropriate commands are available."""
     distribution = host.system_info.distribution
     codename = host.system_info.codename
