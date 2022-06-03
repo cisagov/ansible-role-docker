@@ -35,7 +35,6 @@ def test_packages(host):
                     host.package(pkg).is_installed
                     for pkg in [
                         "docker-ce",
-                        "docker-compose",
                         "docker-compose-plugin",
                         "python3-docker",
                     ]
@@ -63,7 +62,6 @@ def test_packages(host):
                 host.package(pkg).is_installed
                 for pkg in [
                     "docker-ce",
-                    "docker-compose",
                     "docker-compose-plugin",
                     "python3-docker",
                 ]
@@ -94,27 +92,14 @@ def test_commands(host, command):
 
     if distribution in ["debian"]:
         if codename in ["buster", "bullseye"]:
-            assert all(
-                [
-                    host.run(cmd).rc == 0
-                    for cmd in ["docker compose version", "docker-compose version"]
-                ]
-            )
+            assert host.run("docker compose version").rc == 0
         elif codename in ["stretch", "bookworm"]:
-            assert all([host.run(cmd).rc == 0 for cmd in ["docker-compose version"]])
+            assert host.run("docker-compose version").rc == 0
         else:
             assert False, f"Unknown codename {codename}"
-    elif distribution in ["kali"]:
-        assert all([host.run(cmd).rc == 0 for cmd in ["docker-compose version"]])
+    elif distribution in ["amzn", "fedora", "kali"]:
+        assert host.run("docker-compose version").rc == 0
     elif distribution in ["ubuntu"]:
-        assert all(
-            [
-                host.run(cmd).rc == 0
-                for cmd in ["docker compose version", "docker-compose version"]
-            ]
-        )
-    elif distribution in ["amzn", "fedora"]:
-        assert all([host.run(cmd).rc == 0 for cmd in ["docker-compose version"]])
+        assert host.run("docker compose version").rc == 0
     else:
         assert False, f"Unknown distribution {distribution}"
-    assert host.run(command).rc == 0
