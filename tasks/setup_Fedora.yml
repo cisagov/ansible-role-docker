@@ -1,0 +1,46 @@
+---
+# Setup for installing Docker on Fedora from the official Docker repo
+#
+# https://docs.docker.com/engine/install/fedora/
+
+- name: Uninstall non-official versions of packages (Fedora)
+  ansible.builtin.package:
+    name:
+      - docker
+      - docker-client
+      - docker-client-latest
+      - docker-common
+      - docker-latest
+      - docker-latest-logrotate
+      - docker-logrotate
+      # The following package is listed in the Docker documentation,
+      # but breaks idempotence if uninstalled.
+      # - docker-selinux
+      - docker-engine-selinux
+      - docker-engine
+    state: absent
+
+- name: Install prerequisites for dnf (Fedora)
+  ansible.builtin.package:
+    name:
+      - dnf-plugins-core
+
+- name: Add the official Docker repo (Fedora)
+  # If a ansible.builtin.dnf_repository Ansible module is ever created
+  # then that should be used instead; unfortunately, no such module
+  # yet exists.
+  ansible.builtin.command:
+    argv:
+      - dnf
+      - config-manager
+      - --add-repo
+      - https://download.docker.com/linux/fedora/docker-ce.repo
+    creates: /etc/yum.repos.d/docker-ce.repo
+
+- name: Update the cache with the Docker goodness (Fedora)
+  ansible.builtin.package:
+    update_cache: yes
+  # This cache update can cause idempotence to fail, so tell molecule
+  # to ignore any changes this task produces when testing idempotence.
+  tags:
+    - molecule-idempotence-notest

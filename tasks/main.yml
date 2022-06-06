@@ -10,6 +10,12 @@
     # By extension, it does not yet support Kali either.
     - ansible_distribution != "Kali"
 
+- name: Load setup tasks file for adding the official Docker repo to Fedora
+  ansible.builtin.include_tasks:
+    file: setup_Fedora.yml
+  when:
+    - ansible_distribution == "Fedora"
+
 - name: Load var file with package names based on the OS type
   ansible.builtin.include_vars: "{{ lookup('first_found', params) }}"
   vars:
