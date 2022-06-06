@@ -26,7 +26,7 @@
       - dnf-plugins-core
 
 - name: Add the official Docker repo (Fedora)
-  # If a ansible.builtin.dnf_repository Ansible module is ever created
+  # If an ansible.builtin.dnf_repository Ansible module is ever created
   # then that should be used instead; unfortunately, no such module
   # yet exists.
   ansible.builtin.command:

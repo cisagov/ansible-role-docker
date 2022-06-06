@@ -1,7 +1,7 @@
 ---
 # Setup for installing Docker on Debian from the official Docker repo
 #
-# https://docs.docker.com/engine/install/fedora/
+# https://docs.docker.com/engine/install/debian/
 
 - name: Uninstall non-official versions of packages (Debian)
   ansible.builtin.package:
