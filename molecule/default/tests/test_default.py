@@ -90,6 +90,11 @@ def test_commands(host):
     codename = host.system_info.codename
 
     if distribution in ["debian"]:
+        # The difference between the two Debian packages
+        # docker-compose and docker-compose-plugin is that
+        # docker-compose provides a docker-compose command, while the
+        # docker-compose-plugin package provides docker compose
+        # functionality to the docker command.
         if codename in ["buster", "bullseye"]:
             assert host.run("docker compose version").rc == 0
         elif codename in ["stretch", "bookworm"]:
