@@ -1,6 +1,16 @@
 ---
 # Setup for installing Docker on Debian from the official Docker repo
 
+- name: Uninstall non-official versions of packages
+  ansible.builtin.package:
+    name:
+      - containerd
+      - docker
+      - docker-engine
+      - docker.io
+      - runc
+    state: absent
+
 - name: Install prerequisites so apt can use a repo over HTTPS (Debian)
   ansible.builtin.package:
     name:
@@ -8,6 +18,7 @@
       - ca-certificates
       - curl
       - gnupg2
+      - lsb-release
       - software-properties-common
 
 - name: Get official Docker repo GPG key (Debian)
