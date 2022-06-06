@@ -1,5 +1,7 @@
 ---
 # The system packages to install
+#
+# https://docs.docker.com/engine/install/debian/
 package_names:
   - containerd.io
   - docker-ce
