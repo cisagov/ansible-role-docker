@@ -1,7 +1,7 @@
 ---
 # The system packages to install
 #
-# Note that Debian Bullseye is not yet supported by the official
+# Note that Debian Bookworm is not yet supported by the official
 # Docker package repo.
 #
 # https://docs.docker.com/engine/install/debian/

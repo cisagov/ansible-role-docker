@@ -17,32 +17,65 @@ def test_packages(host):
     distribution = host.system_info.distribution
     codename = host.system_info.codename
 
-    # Docker package
-    if (
-        distribution == "debian" and (codename == "bookworm" or codename is None)
-    ) or distribution == "kali":
-        # Debian Bookworm is not yet supported by the official Docker
-        # package repo
-        #
-        # https://docs.docker.com/engine/install/debian/
-        assert host.package("docker.io").is_installed
-    elif distribution == "fedora":
-        # Only Moby is available for Feodra 32 and 33
-        #
-        # https://docs.docker.com/engine/install/fedora/
-        assert host.package("moby-engine").is_installed
+    if distribution in ["debian"]:
+        if codename in ["stretch"]:
+            assert all(
+                [
+                    host.package(pkg).is_installed
+                    for pkg in [
+                        "docker-ce",
+                        "docker-compose",
+                        "python-docker",
+                    ]
+                ]
+            )
+        elif codename in ["buster", "bullseye"]:
+            assert all(
+                [
+                    host.package(pkg).is_installed
+                    for pkg in [
+                        "docker-ce",
+                        "docker-compose-plugin",
+                        "python3-docker",
+                    ]
+                ]
+            )
+        elif codename in ["bookworm"]:
+            assert all(
+                [
+                    host.package(pkg).is_installed
+                    for pkg in ["docker.io", "docker-compose", "python3-docker"]
+                ]
+            )
+        else:
+            assert False, f"Unknown codename {codename}"
+    elif distribution in ["kali"]:
+        assert all(
+            [
+                host.package(pkg).is_installed
+                for pkg in ["docker.io", "docker-compose", "python3-docker"]
+            ]
+        )
+    elif distribution in ["ubuntu"]:
+        assert all(
+            [
+                host.package(pkg).is_installed
+                for pkg in [
+                    "docker-ce",
+                    "docker-compose-plugin",
+                    "python3-docker",
+                ]
+            ]
+        )
+    elif distribution in ["amzn", "fedora"]:
+        assert all(
+            [
+                host.package(pkg).is_installed
+                for pkg in ["docker-compose", "moby-engine", "python3-docker"]
+            ]
+        )
     else:
-        assert host.package("docker-ce").is_installed
-
-    # docker-compose package
-    assert host.package("docker-compose").is_installed
-
-    # Docker python library
-    if distribution == "debian" and codename == "stretch":
-        # Our Stretch AMIs are still using Python 2
-        assert host.package("python-docker").is_installed
-    else:
-        assert host.package("python3-docker").is_installed
+        assert False, f"Unknown distribution {distribution}"
 
 
 @pytest.mark.parametrize("svc", ["docker"])
@@ -51,7 +84,26 @@ def test_services(host, svc):
     assert host.service(svc).is_enabled
 
 
-@pytest.mark.parametrize("command", ["docker-compose version"])
-def test_command(host, command):
+def test_commands(host):
     """Test that appropriate commands are available."""
-    assert host.run(command).rc == 0
+    distribution = host.system_info.distribution
+    codename = host.system_info.codename
+
+    if distribution in ["debian"]:
+        # The difference between the two Debian packages
+        # docker-compose and docker-compose-plugin is that
+        # docker-compose provides a docker-compose command, while the
+        # docker-compose-plugin package provides docker compose
+        # functionality to the docker command.
+        if codename in ["buster", "bullseye"]:
+            assert host.run("docker compose version").rc == 0
+        elif codename in ["stretch", "bookworm"]:
+            assert host.run("docker-compose version").rc == 0
+        else:
+            assert False, f"Unknown codename {codename}"
+    elif distribution in ["amzn", "fedora", "kali"]:
+        assert host.run("docker-compose version").rc == 0
+    elif distribution in ["ubuntu"]:
+        assert host.run("docker compose version").rc == 0
+    else:
+        assert False, f"Unknown distribution {distribution}"
