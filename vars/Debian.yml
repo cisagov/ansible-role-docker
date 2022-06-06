@@ -1,6 +1,8 @@
 ---
 # The system packages to install
 package_names:
+  - containerd.io
   - docker-ce
+  - docker-ce-cli
   - docker-compose-plugin
   - python3-docker

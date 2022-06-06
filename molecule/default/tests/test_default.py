@@ -34,7 +34,9 @@ def test_packages(host):
                 [
                     host.package(pkg).is_installed
                     for pkg in [
+                        "containerd.io",
                         "docker-ce",
+                        "docker-ce-cli",
                         "docker-compose-plugin",
                         "python3-docker",
                     ]
@@ -61,7 +63,9 @@ def test_packages(host):
             [
                 host.package(pkg).is_installed
                 for pkg in [
+                    "containerd.io",
                     "docker-ce",
+                    "docker-ce-cli",
                     "docker-compose-plugin",
                     "python3-docker",
                 ]
