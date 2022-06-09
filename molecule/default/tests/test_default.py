@@ -38,6 +38,7 @@ def test_packages(host):
                         "docker-ce",
                         "docker-ce-cli",
                         "docker-compose-plugin",
+                        "pass",
                         "python3-docker",
                     ]
                 ]
@@ -67,6 +68,7 @@ def test_packages(host):
                     "docker-ce",
                     "docker-ce-cli",
                     "docker-compose-plugin",
+                    "pass",
                     "python3-docker",
                 ]
             ]

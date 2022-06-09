@@ -7,4 +7,9 @@ package_names:
   - docker-ce
   - docker-ce-cli
   - docker-compose-plugin
+  # This package is required to avoid an issue with docker compose
+  # pull.  See, for example:
+  # - https://github.com/docker/compose/issues/6023
+  # - https://docs.docker.com/engine/reference/commandline/login/
+  - pass
   - python3-docker
