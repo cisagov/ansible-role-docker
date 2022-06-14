@@ -34,8 +34,11 @@ def test_packages(host):
                 [
                     host.package(pkg).is_installed
                     for pkg in [
+                        "containerd.io",
                         "docker-ce",
+                        "docker-ce-cli",
                         "docker-compose-plugin",
+                        "pass",
                         "python3-docker",
                     ]
                 ]
@@ -56,18 +59,21 @@ def test_packages(host):
                 for pkg in ["docker.io", "docker-compose", "python3-docker"]
             ]
         )
-    elif distribution in ["ubuntu"]:
+    elif distribution in ["fedora", "ubuntu"]:
         assert all(
             [
                 host.package(pkg).is_installed
                 for pkg in [
+                    "containerd.io",
                     "docker-ce",
+                    "docker-ce-cli",
                     "docker-compose-plugin",
+                    "pass",
                     "python3-docker",
                 ]
             ]
         )
-    elif distribution in ["amzn", "fedora"]:
+    elif distribution in ["amzn"]:
         assert all(
             [
                 host.package(pkg).is_installed
@@ -101,9 +107,9 @@ def test_commands(host):
             assert host.run("docker-compose version").rc == 0
         else:
             assert False, f"Unknown codename {codename}"
-    elif distribution in ["amzn", "fedora", "kali"]:
+    elif distribution in ["amzn", "kali"]:
         assert host.run("docker-compose version").rc == 0
-    elif distribution in ["ubuntu"]:
+    elif distribution in ["fedora", "ubuntu"]:
         assert host.run("docker compose version").rc == 0
     else:
         assert False, f"Unknown distribution {distribution}"

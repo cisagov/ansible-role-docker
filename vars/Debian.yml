@@ -1,6 +1,16 @@
 ---
 # The system packages to install
+#
+# https://docs.docker.com/engine/install/debian/
 package_names:
+  - containerd.io
   - docker-ce
+  - docker-ce-cli
   - docker-compose-plugin
+  # This package is required to avoid an issue with docker compose
+  # pull.  See the following for more information:
+  # - https://github.com/docker/compose/issues/9560
+  # - https://github.com/docker/compose/issues/6023
+  # - https://docs.docker.com/engine/reference/commandline/login/
+  - pass
   - python3-docker

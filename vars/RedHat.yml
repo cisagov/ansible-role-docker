@@ -1,13 +1,11 @@
 ---
 # The system packages to install
 #
-# Note that docker-ce is not currently available on any of our supported
-# Fedora platforms (32 and 33), so we install the next best thing, which
-# is moby-engine.  See https://src.fedoraproject.org/rpms/moby-engine
+# Note that docker-ce is not currently available on Amazon Linux 2, so
+# we install the next best thing, which is moby-engine.
+#
 # From a usage standpoint, it is transparent, as "docker ..." commands
 # are accepted and passed to moby-engine.
-#
-# https://docs.docker.com/engine/install/fedora/
 package_names:
   - docker-compose
   - moby-engine
