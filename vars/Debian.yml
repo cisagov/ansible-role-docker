@@ -8,7 +8,8 @@ package_names:
   - docker-ce-cli
   - docker-compose-plugin
   # This package is required to avoid an issue with docker compose
-  # pull.  See, for example:
+  # pull.  See the following for more information:
+  # - https://github.com/docker/compose/issues/9560
   # - https://github.com/docker/compose/issues/6023
   # - https://docs.docker.com/engine/reference/commandline/login/
   - pass
