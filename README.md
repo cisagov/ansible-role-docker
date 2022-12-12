@@ -1,8 +1,7 @@
 # ansible-role-docker #
 
 [![GitHub Build Status](https://github.com/cisagov/ansible-role-docker/workflows/build/badge.svg)](https://github.com/cisagov/ansible-role-docker)
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/cisagov/ansible-role-docker.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/cisagov/ansible-role-docker/alerts/)
-[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/cisagov/ansible-role-docker.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/cisagov/ansible-role-docker/context:python)
+[![CodeQL](https://github.com/cisagov/ansible-role-docker/workflows/CodeQL/badge.svg)](https://github.com/cisagov/ansible-role-docker/actions/workflows/codeql-analysis.yml)
 
 An Ansible role for installing [Docker](https://www.docker.com/).
 
@@ -35,8 +34,10 @@ Here's how to use it in a playbook:
 - hosts: all
   become: yes
   become_method: sudo
-  roles:
-    - docker
+  tasks:
+    - name: Install Docker
+      ansible.builtin.include_role:
+        name: docker
 ```
 
 ## Contributing ##
