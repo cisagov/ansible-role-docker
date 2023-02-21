@@ -1,8 +1,11 @@
 ---
+dependencies:
+  - src: https://github.com/cisagov/ansible-role-backports
+    name: backports
 galaxy_info:
   author: Kyle Evers
-  description: Ansible role for installing Docker
   company: CISA Cyber Assessments
+  description: Ansible role for installing Docker
   galaxy_tags:
     - docker
   license: CC0
@@ -29,7 +32,6 @@ galaxy_info:
         - bookworm
     - name: Fedora
       versions:
-        - "35"
         - "36"
         - "37"
     - name: Ubuntu
@@ -38,7 +40,3 @@ galaxy_info:
         - focal
         - jammy
   role_name: docker
-
-dependencies:
-  - src: https://github.com/cisagov/ansible-role-backports
-    name: backports
