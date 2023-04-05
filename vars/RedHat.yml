@@ -2,4 +2,3 @@
 # The system packages to install
 package_names:
   - docker
-  
