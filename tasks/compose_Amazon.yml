@@ -6,6 +6,6 @@
 
 - name: Install Docker Compose V2 Plugin (Amazon)
   ansible.builtin.get_url:
-    url: https://github.com/docker/compose/releases/latest/download/docker-compose-{{ ansible_system }}-{{ ansible_userspace_architecture }}
     dest: /usr/libexec/docker/cli-plugins/docker-compose
     mode: '0755'
+    url: https://github.com/docker/compose/releases/latest/download/docker-compose-{{ ansible_system }}-{{ ansible_userspace_architecture }}
