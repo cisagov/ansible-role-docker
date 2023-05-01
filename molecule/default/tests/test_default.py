@@ -18,18 +18,7 @@ def test_packages(host):
     codename = host.system_info.codename
 
     if distribution in ["debian"]:
-        if codename in ["stretch"]:
-            assert all(
-                [
-                    host.package(pkg).is_installed
-                    for pkg in [
-                        "docker-ce",
-                        "docker-compose",
-                        "python-docker",
-                    ]
-                ]
-            )
-        elif codename in ["buster", "bullseye"]:
+        if codename in ["buster", "bullseye"]:
             assert all(
                 [
                     host.package(pkg).is_installed
@@ -74,12 +63,7 @@ def test_packages(host):
             ]
         )
     elif distribution in ["amzn"]:
-        assert all(
-            [
-                host.package(pkg).is_installed
-                for pkg in ["docker-compose", "moby-engine", "python3-docker"]
-            ]
-        )
+        assert all([host.package(pkg).is_installed for pkg in ["docker"]])
     else:
         assert False, f"Unknown distribution {distribution}"
 
@@ -103,13 +87,13 @@ def test_commands(host):
         # functionality to the docker command.
         if codename in ["buster", "bullseye"]:
             assert host.run("docker compose version").rc == 0
-        elif codename in ["stretch", "bookworm"]:
+        elif codename in ["bookworm"]:
             assert host.run("docker-compose version").rc == 0
         else:
             assert False, f"Unknown codename {codename}"
-    elif distribution in ["amzn", "kali"]:
+    elif distribution in ["kali"]:
         assert host.run("docker-compose version").rc == 0
-    elif distribution in ["fedora", "ubuntu"]:
+    elif distribution in ["amzn", "fedora", "ubuntu"]:
         assert host.run("docker compose version").rc == 0
     else:
         assert False, f"Unknown distribution {distribution}"
