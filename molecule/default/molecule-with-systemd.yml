@@ -17,9 +17,7 @@ lint: |
 platforms:
   - cgroupns_mode: host
     command: /lib/systemd/systemd
-    #  To Do - Update this image to 2023 pending the resolution of:
-    #  https://github.com/geerlingguy/docker-amazonlinux2022-ansible/issues/1
-    image: geerlingguy/docker-amazonlinux2022-ansible:latest
+    image: geerlingguy/docker-amazonlinux2023-ansible:latest
     name: amazonlinux2-systemd
     platform: amd64
     pre_build_image: yes
