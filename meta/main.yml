@@ -17,9 +17,12 @@ galaxy_info:
   min_ansible_version: "2.10"
   namespace: cisagov
   platforms:
-    - name: Amazon Linux 2023
-      versions:
-        - any
+    # Amazon Linux 2023 does not (yet?) offer docker-compose or the
+    # Docker compose plugin:
+    # https://github.com/amazonlinux/amazon-linux-2023/issues/186
+    # - name: Amazon Linux 2023
+    #   versions:
+    #     - any
     - name: Debian
       versions:
         - buster
