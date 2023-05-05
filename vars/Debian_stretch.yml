@@ -1,8 +1,0 @@
----
-# The system packages to install
-package_names:
-  # Note that the docker-compose-plugin package is unavailable for
-  # Debian Stretch.
-  - docker-ce
-  - docker-compose
-  - python-docker

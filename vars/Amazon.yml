@@ -1,0 +1,6 @@
+---
+# The system packages to install.  Note that python-docker is not
+# available on Amazon Linux 2023:
+# https://docs.aws.amazon.com/linux/al2023/release-notes/all-packages-al2023-20230419.html
+package_names:
+  - docker
