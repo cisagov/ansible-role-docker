@@ -40,7 +40,7 @@
     file: compose_Amazon.yml
   when:
     - ansible_distribution == "Amazon"
-  
+
 # Unless you do this, systemd can sometimes get confused when you try
 # to start a service you just installed
 - name: Systemd daemon-reload
