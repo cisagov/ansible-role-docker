@@ -28,22 +28,9 @@
         - "{{ role_path }}/vars"
 
 - name: >
-    Install docker, docker-compose, and the Docker Python library (not
-    Debian Stretch)
+    Install docker, docker-compose, and the Docker Python library
   ansible.builtin.package:
     name: "{{ package_names }}"
-  when:
-    - ansible_distribution != "Debian" or ansible_distribution_release != "stretch"
-
-- name: >
-    Install docker, docker-compose, and the Docker Python library (Debian
-    Stretch)
-  ansible.builtin.package:
-    default_release: "{{ ansible_distribution_release }}-backports"
-    name: "{{ package_names }}"
-  when:
-    - ansible_distribution == "Debian"
-    - ansible_distribution_release == "stretch"
 
 # Unless you do this, systemd can sometimes get confused when you try
 # to start a service you just installed
