@@ -3,7 +3,6 @@
 #
 # https://docs.docker.com/compose/install/linux/
 
-
 - name: Install Docker Compose V2 Plugin (Amazon)
   ansible.builtin.get_url:
     dest: /usr/libexec/docker/cli-plugins/docker-compose
