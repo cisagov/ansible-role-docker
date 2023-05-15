@@ -1,0 +1,10 @@
+---
+# Setup for installing Docker Compose V2 from GitHub
+#
+# https://docs.docker.com/compose/install/linux/
+
+- name: Install Docker Compose V2 plugin
+  ansible.builtin.get_url:
+    dest: /usr/libexec/docker/cli-plugins/docker-compose
+    mode: '0755'
+    url: https://github.com/docker/compose/releases/latest/download/docker-compose-{{ ansible_system }}-{{ ansible_userspace_architecture }}
