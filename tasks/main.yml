@@ -28,7 +28,7 @@
         - "{{ role_path }}/vars"
 
 - name: >
-    Install docker, docker-compose, and the Docker Python library
+    Install Docker, Docker Compose, and the Docker Python library
   ansible.builtin.package:
     name: "{{ package_names }}"
 
