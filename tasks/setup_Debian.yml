@@ -23,13 +23,31 @@
       - lsb-release
       - software-properties-common
 
-- name: Get official Docker repo GPG key (Debian)
+- name: Get official Docker repo GPG key (Debian, not Kali)
   ansible.builtin.apt_key:
     url: https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg
+  when:
+    - ansible_distribution | lower != "kali"
 
-- name: Add the official Docker repo (Debian)
+# Use Debian Bookworm for Kali
+- name: Get official Docker repo GPG key (Kali)
+  ansible.builtin.apt_key:
+    url: https://download.docker.com/linux/debian/gpg
+  when:
+    - ansible_distribution | lower == "kali"
+
+- name: Add the official Docker repo (Debian, not Kali)
   ansible.builtin.apt_repository:
     repo: deb [arch=amd64] https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable
+  when:
+    - ansible_distribution | lower != "kali"
+
+# Use Debian Bookworm for Kali
+- name: Add the official Docker repo (Kali)
+  ansible.builtin.apt_repository:
+    repo: deb [arch=amd64] https://download.docker.com/linux/debian bookworm stable
+  when:
+    - ansible_distribution | lower == "kali"
 
 - name: Update the cache with the Docker goodness (Debian)
   ansible.builtin.package:

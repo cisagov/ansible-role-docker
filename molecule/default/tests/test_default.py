@@ -15,40 +15,8 @@ testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
 def test_packages(host):
     """Test that the appropriate packages were installed."""
     distribution = host.system_info.distribution
-    codename = host.system_info.codename
 
-    if distribution in ["debian"]:
-        if codename in ["buster", "bullseye"]:
-            assert all(
-                [
-                    host.package(pkg).is_installed
-                    for pkg in [
-                        "containerd.io",
-                        "docker-ce",
-                        "docker-ce-cli",
-                        "docker-compose-plugin",
-                        "pass",
-                        "python3-docker",
-                    ]
-                ]
-            )
-        elif codename in ["bookworm"]:
-            assert all(
-                [
-                    host.package(pkg).is_installed
-                    for pkg in ["docker.io", "docker-compose", "python3-docker"]
-                ]
-            )
-        else:
-            assert False, f"Unknown codename {codename}"
-    elif distribution in ["kali"]:
-        assert all(
-            [
-                host.package(pkg).is_installed
-                for pkg in ["docker.io", "docker-compose", "python3-docker"]
-            ]
-        )
-    elif distribution in ["fedora", "ubuntu"]:
+    if distribution in ["debian", "fedora", "kali", "ubuntu"]:
         assert all(
             [
                 host.package(pkg).is_installed
@@ -76,24 +44,4 @@ def test_services(host, svc):
 
 def test_commands(host):
     """Test that appropriate commands are available."""
-    distribution = host.system_info.distribution
-    codename = host.system_info.codename
-
-    if distribution in ["debian"]:
-        # The difference between the two Debian packages
-        # docker-compose and docker-compose-plugin is that
-        # docker-compose provides a docker-compose command, while the
-        # docker-compose-plugin package provides docker compose
-        # functionality to the docker command.
-        if codename in ["buster", "bullseye"]:
-            assert host.run("docker compose version").rc == 0
-        elif codename in ["bookworm"]:
-            assert host.run("docker-compose version").rc == 0
-        else:
-            assert False, f"Unknown codename {codename}"
-    elif distribution in ["kali"]:
-        assert host.run("docker-compose version").rc == 0
-    elif distribution in ["amzn", "fedora", "ubuntu"]:
-        assert host.run("docker compose version").rc == 0
-    else:
-        assert False, f"Unknown distribution {distribution}"
+    assert host.run("docker compose version").rc == 0
