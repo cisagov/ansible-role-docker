@@ -19,7 +19,7 @@ galaxy_info:
   platforms:
     - name: Amazon Linux
       versions:
-        - 2023
+        - "2023"
     - name: Debian
       versions:
         - buster
