@@ -35,7 +35,7 @@
 # Amazon Linux 2023 does not (yet?) offer docker-compose or the
 # Docker compose plugin, so we grab it from GitHub:
 # https://github.com/amazonlinux/amazon-linux-2023/issues/186
-- name: Install docker compose plugin V2 (Amazon Linux)
+- name: Install Docker Compose V2 plugin (Amazon Linux)
   ansible.builtin.include_tasks:
     file: compose_Amazon.yml
   when:
