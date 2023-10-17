@@ -1,7 +1,12 @@
 ---
+# Note that dependencies listed here are automatically installed
+# before this role.  Role variables for any roles listed here can be
+# assigned static variables.
+#
+# See also cisagov/skeleton-ansible-role#153.
 dependencies:
-  - src: https://github.com/cisagov/ansible-role-backports
-    name: backports
+  - name: backports
+    src: https://github.com/cisagov/ansible-role-backports
 galaxy_info:
   author: Kyle Evers
   company: CISA Cyber Assessments
@@ -37,3 +42,4 @@ galaxy_info:
         - focal
         - jammy
   role_name: docker
+  standalone: true

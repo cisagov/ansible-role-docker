@@ -1,5 +1,5 @@
 ---
-- src: https://github.com/cisagov/ansible-role-backports
-  name: backports
-- src: https://github.com/cisagov/ansible-role-upgrade
-  name: upgrade
+- name: backports
+  src: https://github.com/cisagov/ansible-role-backports
+- name: upgrade
+  src: https://github.com/cisagov/ansible-role-upgrade
