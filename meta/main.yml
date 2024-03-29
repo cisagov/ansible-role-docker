@@ -30,7 +30,10 @@ galaxy_info:
         - buster
         - bullseye
         - bookworm
-        - trixie
+        # Docker does not yet officially support Debian Trixie.  See
+        # https://docs.docker.com/engine/install/debian/ for more
+        # details.
+        # - trixie
     - name: Fedora
       versions:
         - "38"
