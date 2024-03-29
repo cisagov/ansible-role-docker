@@ -38,8 +38,8 @@ where `requirements.yml` looks like:
 
 ```yaml
 ---
-- name: skeleton
-  src: https://github.com/cisagov/skeleton-ansible-role
+- name: docker
+  src: https://github.com/cisagov/ansible-role-docker
 ```
 
 and may contain other roles as well.
