@@ -185,7 +185,10 @@ jobs:
           - debian10-systemd
           - debian11-systemd
           - debian12-systemd
-          - debian13-systemd
+          # Docker does not yet officially support Debian Trixie.  See
+          # https://docs.docker.com/engine/install/debian/ for more
+          # details.
+          # - debian13-systemd
           - fedora39-systemd
           - fedora40-systemd
           - kali-systemd
