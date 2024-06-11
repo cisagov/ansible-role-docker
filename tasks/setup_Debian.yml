@@ -38,21 +38,13 @@
 
 - name: Add the official Docker repo (Debian, not Kali)
   ansible.builtin.apt_repository:
-    repo: deb [arch=amd64] https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable
+    repo: deb https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable
   when:
     - ansible_distribution | lower != "kali"
 
 # Use Debian Bookworm for Kali
 - name: Add the official Docker repo (Kali)
   ansible.builtin.apt_repository:
-    repo: deb [arch=amd64] https://download.docker.com/linux/debian bookworm stable
+    repo: deb https://download.docker.com/linux/debian bookworm stable
   when:
     - ansible_distribution | lower == "kali"
-
-- name: Update the cache with the Docker goodness (Debian)
-  ansible.builtin.package:
-    update_cache: true
-  # This cache update can cause idempotence to fail, so tell molecule
-  # to ignore any changes this task produces when testing idempotence.
-  tags:
-    - molecule-idempotence-notest
