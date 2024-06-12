@@ -30,9 +30,10 @@ galaxy_info:
         - buster
         - bullseye
         - bookworm
-        # Docker does not yet officially support Debian Trixie.  See
-        # https://docs.docker.com/engine/install/debian/ for more
-        # details.
+        # TODO: Docker does not yet officially support Debian Trixie,
+        # but we should add support when that becomes possible.  See
+        # https://docs.docker.com/engine/install/debian/ and
+        # cisagov/ansible-role-docker#79 for more details.
         # - trixie
     - name: Fedora
       versions:
