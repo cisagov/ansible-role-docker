@@ -13,38 +13,42 @@
       - runc
     state: absent
 
-- name: Install prerequisites so apt can use a repo over HTTPS (Debian)
-  ansible.builtin.package:
-    name:
-      - apt-transport-https
-      - ca-certificates
-      - curl
-      - gnupg2
-      - lsb-release
-      - software-properties-common
-
-- name: Get official Docker repo GPG key (Debian, not Kali)
-  ansible.builtin.apt_key:
-    url: https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg
+- name: Add official Docker repo (Debian, not Kali)
   when:
     - ansible_distribution | lower != "kali"
+  block:
+    - name: Install prerequisites so apt can use a repo over HTTPS (Debian, not Kali)
+      ansible.builtin.package:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - gnupg2
+          - lsb-release
+          - software-properties-common
+    - name: Get official Docker repo GPG key (Debian, not Kali)
+      ansible.builtin.apt_key:
+        url: https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg
+    - name: Add the official Docker repo (Debian, not Kali)
+      ansible.builtin.apt_repository:
+        repo: deb https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable
 
-# Use Debian Bookworm for Kali
-- name: Get official Docker repo GPG key (Kali)
-  ansible.builtin.apt_key:
-    url: https://download.docker.com/linux/debian/gpg
+- name: Add official Docker repo (Kali)
   when:
     - ansible_distribution | lower == "kali"
-
-- name: Add the official Docker repo (Debian, not Kali)
-  ansible.builtin.apt_repository:
-    repo: deb https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable
-  when:
-    - ansible_distribution | lower != "kali"
-
-# Use Debian Bookworm for Kali
-- name: Add the official Docker repo (Kali)
-  ansible.builtin.apt_repository:
-    repo: deb https://download.docker.com/linux/debian bookworm stable
-  when:
-    - ansible_distribution | lower == "kali"
+  block:
+    - name: Install prerequisites so apt can use a repo over HTTPS (Kali)
+      ansible.builtin.package:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - gnupg2
+          - lsb-release
+    # Use Debian Bookworm for Kali
+    - name: Get official Docker repo GPG key (Kali)
+      ansible.builtin.apt_key:
+        url: https://download.docker.com/linux/debian/gpg
+    - name: Add the official Docker repo (Kali)
+      ansible.builtin.apt_repository:
+        repo: deb https://download.docker.com/linux/debian bookworm stable
