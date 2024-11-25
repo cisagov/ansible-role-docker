@@ -24,6 +24,7 @@ def test_packages(host):
                     "containerd.io",
                     "docker-ce",
                     "docker-ce-cli",
+                    "docker-buildx-plugin",
                     "docker-compose-plugin",
                     "pass",
                     "python3-docker",
