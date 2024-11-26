@@ -6,7 +6,9 @@
 - name: Uninstall non-official versions of packages (Fedora)
   ansible.builtin.package:
     name:
-      - docker
+      # The following package is listed in the Docker documentation,
+      # but breaks idempotence if uninstalled.
+      # - docker
       - docker-client
       - docker-client-latest
       - docker-common
