@@ -1,18 +1,23 @@
 ---
-- name: Load setup tasks file for adding the official Docker PPA to Debian
+- name: Load setup tasks file for adding the official Docker repo
   ansible.builtin.include_tasks:
-    file: setup_Debian.yml
+    file: "{{ lookup('first_found', params) }}"
+  vars:
+    params:
+      files:
+        - "setup_{{ ansible_distribution }}_{{ ansible_distribution_release }}.yml"
+        - "setup_{{ ansible_distribution }}.yml"
+        - "setup_{{ ansible_os_family }}.yml"
+      paths:
+        - "{{ role_path }}/tasks"
   when:
-    - ansible_os_family == "Debian"
-
-- name: Load setup tasks file for adding the official Docker repo to Fedora
-  ansible.builtin.include_tasks:
-    file: setup_Fedora.yml
-  when:
-    - ansible_distribution == "Fedora"
+    # Note that we only need to do this for all Debian-based OSs and
+    # Fedora.
+    - ansible_os_family == "Debian" or ansible_distribution == "Fedora"
 
 - name: Load var file with package names based on the OS type
-  ansible.builtin.include_vars: "{{ lookup('first_found', params) }}"
+  ansible.builtin.include_vars:
+    file: "{{ lookup('first_found', params) }}"
   vars:
     params:
       files:
