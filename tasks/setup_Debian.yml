@@ -45,10 +45,20 @@
           - curl
           - gnupg2
           - lsb-release
-    # Use Debian Bookworm for Kali
-    - name: Get official Docker repo GPG key (Kali)
-      ansible.builtin.apt_key:
-        url: https://download.docker.com/linux/debian/gpg
+    - name: Install prerequisites so apt can use DEB822 repos (Kali)
+      ansible.builtin.package:
+        name:
+          - python3-debian
     - name: Add the official Docker repo (Kali)
-      ansible.builtin.apt_repository:
-        repo: deb https://download.docker.com/linux/debian bookworm stable
+      ansible.builtin.deb822_repository:
+        components:
+          - stable
+        name: docker
+        signed_by: https://download.docker.com/linux/debian/gpg
+        suites:
+          - bookworm
+        uris:
+          - https://download.docker.com/linux/debian
+    - name: Update the package cache
+      ansible.builtin.apt:
+        update_cache: true
