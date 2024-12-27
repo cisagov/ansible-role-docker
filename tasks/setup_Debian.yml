@@ -50,6 +50,11 @@
           - "{{ apt_distro_release }}"
         uris:
           - https://download.docker.com/linux/{{ apt_distro }}
-    - name: Update the package cache
-      ansible.builtin.apt:
-        update_cache: true
+      notify:
+        - Update the apt package cache
+    # We need the handler that updates the apt package cache to run
+    # now if it is necessary.  It is required by the parent playbook
+    # since it will attempt to install the packages from the new apt
+    # package repo.
+    - name: Flush handlers
+      ansible.builtin.meta: flush_handlers
