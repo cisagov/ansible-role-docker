@@ -1,8 +1,8 @@
 ---
-# The system packages to install
+# The system packages required for Docker.
 #
 # https://docs.docker.com/engine/install/debian/
-package_names:
+docker_prerequisites:
   - containerd.io
   - docker-buildx-plugin
   - docker-ce

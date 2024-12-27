@@ -30,7 +30,7 @@
 - name: >
     Install Docker, Docker Compose, and the Docker Python library
   ansible.builtin.package:
-    name: "{{ package_names }}"
+    name: "{{ docker_prerequisites }}"
 
 # Amazon Linux 2023 does not (yet?) offer docker-compose or the
 # Docker Compose plugin, so we grab it from GitHub:
