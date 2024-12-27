@@ -46,7 +46,6 @@
 - name: Systemd daemon-reload
   ansible.builtin.systemd:
     daemon_reload: true
-  when: ansible_service_mgr == "systemd"
 
 - name: Enable docker
   ansible.builtin.service:
