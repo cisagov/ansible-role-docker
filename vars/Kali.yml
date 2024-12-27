@@ -6,7 +6,9 @@ apt_over_https_prerequisites:
   - curl
   - gnupg2
   - lsb-release
-  - software-properties-common
+  # This package is not available on Kali, but whatever it installs
+  # seems to already be present.
+  # - software-properties-common
 
 # The system packages required for Docker.
 #

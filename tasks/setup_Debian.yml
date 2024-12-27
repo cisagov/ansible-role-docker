@@ -19,13 +19,7 @@
   block:
     - name: Install prerequisites so apt can use a repo over HTTPS (Debian, not Kali)
       ansible.builtin.package:
-        name:
-          - apt-transport-https
-          - ca-certificates
-          - curl
-          - gnupg2
-          - lsb-release
-          - software-properties-common
+        name: "{{ apt_over_https_prerequisites }}"
     - name: Get official Docker repo GPG key (Debian, not Kali)
       ansible.builtin.apt_key:
         url: https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg
@@ -39,12 +33,7 @@
   block:
     - name: Install prerequisites so apt can use a repo over HTTPS (Kali)
       ansible.builtin.package:
-        name:
-          - apt-transport-https
-          - ca-certificates
-          - curl
-          - gnupg2
-          - lsb-release
+        name: "{{ apt_over_https_prerequisites }}"
     - name: Install prerequisites so apt can use DEB822 repos (Kali)
       ansible.builtin.package:
         name:
