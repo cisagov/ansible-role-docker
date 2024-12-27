@@ -28,7 +28,7 @@
         url: https://download.docker.com/linux/{{ apt_distro }}/gpg
     - name: Add the official Docker repo
       ansible.builtin.apt_repository:
-        repo: deb https://download.docker.com/linux/{{ apt_distro | lower }} {{ apt_distro_release }} stable
+        repo: deb https://download.docker.com/linux/{{ apt_distro }} {{ apt_distro_release }} stable
     # ansible.builtin.apt_repository updates the package cache so
     # there is no need to do it explicitly.
 
