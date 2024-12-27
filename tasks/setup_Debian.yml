@@ -13,32 +13,34 @@
       - runc
     state: absent
 
-- name: Add official Docker repo (Debian, not Kali)
+- name: Install prerequisites so apt can use a repo over HTTPS
+  ansible.builtin.package:
+    name: "{{ apt_over_https_prerequisites }}"
+
+# Debian Buster does not support DEB822 repos, so we have to treat it
+# as a special case.
+- name: Add official Docker repo (Debian Buster)
   when:
-    - ansible_distribution | lower != "kali"
+    - ansible_distribution_release == "buster"
   block:
-    - name: Install prerequisites so apt can use a repo over HTTPS (Debian, not Kali)
-      ansible.builtin.package:
-        name: "{{ apt_over_https_prerequisites }}"
-    - name: Get official Docker repo GPG key (Debian, not Kali)
+    - name: Get official Docker repo GPG key
       ansible.builtin.apt_key:
         url: https://download.docker.com/linux/{{ apt_distro }}/gpg
-    - name: Add the official Docker repo (Debian, not Kali)
+    - name: Add the official Docker repo
       ansible.builtin.apt_repository:
         repo: deb https://download.docker.com/linux/{{ apt_distro | lower }} {{ apt_distro_release }} stable
+    # ansible.builtin.apt_repository updates the package cache so
+    # there is no need to do it explicitly.
 
-- name: Add official Docker repo (Kali)
+- name: Add official Docker repo
   when:
-    - ansible_distribution | lower == "kali"
+    - ansible_distribution_release != "buster"
   block:
-    - name: Install prerequisites so apt can use a repo over HTTPS (Kali)
-      ansible.builtin.package:
-        name: "{{ apt_over_https_prerequisites }}"
-    - name: Install prerequisites so apt can use DEB822 repos (Kali)
+    - name: Install prerequisites so apt can use DEB822 repos
       ansible.builtin.package:
         name:
           - python3-debian
-    - name: Add the official Docker repo (Kali)
+    - name: Add the official Docker repo
       ansible.builtin.deb822_repository:
         components:
           - stable
