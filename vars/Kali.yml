@@ -1,10 +1,16 @@
 ---
 # The Linux distribution to use when configuring a Debian repo.  Note
-# that we force Kali to use Debian Bookworm.
+# that we force Kali to use Debian Bookworm.  This is because Docker
+# does not provide an official package for Kali or Debian Testing (on
+# which Kali is based), but it does support Bookworm which is close
+# enough to work.
 apt_distro: debian
 
 # The release of the Linux distribution to use when configuring a
-# Debian repo.  Note that we force Kali to use Debian Bookworm.
+# Debian repo.  Note that we force Kali to use Debian Bookworm.  This
+# is because Docker does not provide an official package for Kali or
+# Debian Testing (on which Kali is based), but it does support
+# Bookworm which is close enough to work.
 apt_distro_release: bookworm
 
 # The system packages required for apt-over-https.
