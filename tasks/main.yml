@@ -1,4 +1,16 @@
 ---
+- name: Load var file based on the OS type
+  ansible.builtin.include_vars:
+    file: "{{ lookup('first_found', params) }}"
+  vars:
+    params:
+      files:
+        - "{{ ansible_distribution }}_{{ ansible_distribution_release }}.yml"
+        - "{{ ansible_distribution }}.yml"
+        - "{{ ansible_os_family }}.yml"
+      paths:
+        - "{{ role_path }}/vars"
+
 - name: Load setup tasks file for adding the official Docker repo
   ansible.builtin.include_tasks:
     file: "{{ lookup('first_found', params) }}"
@@ -15,22 +27,10 @@
     # Fedora.
     - ansible_os_family == "Debian" or ansible_distribution == "Fedora"
 
-- name: Load var file with package names based on the OS type
-  ansible.builtin.include_vars:
-    file: "{{ lookup('first_found', params) }}"
-  vars:
-    params:
-      files:
-        - "{{ ansible_distribution }}_{{ ansible_distribution_release }}.yml"
-        - "{{ ansible_distribution }}.yml"
-        - "{{ ansible_os_family }}.yml"
-      paths:
-        - "{{ role_path }}/vars"
-
 - name: >
     Install Docker, Docker Compose, and the Docker Python library
   ansible.builtin.package:
-    name: "{{ package_names }}"
+    name: "{{ docker_prerequisites }}"
 
 # Amazon Linux 2023 does not (yet?) offer docker-compose or the
 # Docker Compose plugin, so we grab it from GitHub:
@@ -46,7 +46,6 @@
 - name: Systemd daemon-reload
   ansible.builtin.systemd:
     daemon_reload: true
-  when: ansible_service_mgr == "systemd"
 
 - name: Enable docker
   ansible.builtin.service:

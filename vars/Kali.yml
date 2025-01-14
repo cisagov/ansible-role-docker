@@ -1,10 +1,17 @@
 ---
-# The Linux distribution to use when configuring a Debian repo.
-apt_distro: "{{ ansible_distribution | lower }}"
+# The Linux distribution to use when configuring a Debian repo.  Note
+# that we force Kali to use Debian Bookworm.  This is because Docker
+# does not provide an official package for Kali or Debian Testing (on
+# which Kali is based), but it does support Bookworm which is close
+# enough to work.
+apt_distro: debian
 
 # The release of the Linux distribution to use when configuring a
-# Debian repo.
-apt_distro_release: "{{ ansible_distribution_release }}"
+# Debian repo.  Note that we force Kali to use Debian Bookworm.  This
+# is because Docker does not provide an official package for Kali or
+# Debian Testing (on which Kali is based), but it does support
+# Bookworm which is close enough to work.
+apt_distro_release: bookworm
 
 # The system packages required for apt-over-https.
 apt_over_https_prerequisites:
@@ -13,7 +20,9 @@ apt_over_https_prerequisites:
   - curl
   - gnupg2
   - lsb-release
-  - software-properties-common
+  # This package is not available on Kali, but whatever it installs
+  # seems to already be present.
+  # - software-properties-common
 
 # The system packages required for Docker.
 #

@@ -13,52 +13,48 @@
       - runc
     state: absent
 
-- name: Add official Docker repo (Debian, not Kali)
-  when:
-    - ansible_distribution | lower != "kali"
-  block:
-    - name: Install prerequisites so apt can use a repo over HTTPS (Debian, not Kali)
-      ansible.builtin.package:
-        name:
-          - apt-transport-https
-          - ca-certificates
-          - curl
-          - gnupg2
-          - lsb-release
-          - software-properties-common
-    - name: Get official Docker repo GPG key (Debian, not Kali)
-      ansible.builtin.apt_key:
-        url: https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg
-    - name: Add the official Docker repo (Debian, not Kali)
-      ansible.builtin.apt_repository:
-        repo: deb https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable
+- name: Install prerequisites so apt can use a repo over HTTPS
+  ansible.builtin.package:
+    name: "{{ apt_over_https_prerequisites }}"
 
-- name: Add official Docker repo (Kali)
+# Debian Buster does not support DEB822 repos, so we have to treat it
+# as a special case.
+- name: Add official Docker repo (Debian Buster)
   when:
-    - ansible_distribution | lower == "kali"
+    - ansible_distribution_release == "buster"
   block:
-    - name: Install prerequisites so apt can use a repo over HTTPS (Kali)
-      ansible.builtin.package:
-        name:
-          - apt-transport-https
-          - ca-certificates
-          - curl
-          - gnupg2
-          - lsb-release
-    - name: Install prerequisites so apt can use DEB822 repos (Kali)
+    - name: Get official Docker repo GPG key
+      ansible.builtin.apt_key:
+        url: https://download.docker.com/linux/{{ apt_distro }}/gpg
+    - name: Add the official Docker repo
+      ansible.builtin.apt_repository:
+        repo: deb https://download.docker.com/linux/{{ apt_distro }} {{ apt_distro_release }} stable
+    # ansible.builtin.apt_repository updates the package cache so
+    # there is no need to do it explicitly.
+
+- name: Add official Docker repo
+  when:
+    - ansible_distribution_release != "buster"
+  block:
+    - name: Install prerequisites so apt can use DEB822 repos
       ansible.builtin.package:
         name:
           - python3-debian
-    - name: Add the official Docker repo (Kali)
+    - name: Add the official Docker repo
       ansible.builtin.deb822_repository:
         components:
           - stable
         name: docker
-        signed_by: https://download.docker.com/linux/debian/gpg
+        signed_by: https://download.docker.com/linux/{{ apt_distro }}/gpg
         suites:
-          - bookworm
+          - "{{ apt_distro_release }}"
         uris:
-          - https://download.docker.com/linux/debian
-    - name: Update the package cache
-      ansible.builtin.apt:
-        update_cache: true
+          - https://download.docker.com/linux/{{ apt_distro }}
+      notify:
+        - Update the apt package cache
+    # We need the handler that updates the apt package cache to run
+    # now if it is necessary.  It is required by the parent playbook
+    # since it will attempt to install the packages from the new apt
+    # package repo.
+    - name: Flush handlers
+      ansible.builtin.meta: flush_handlers
