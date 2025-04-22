@@ -6,5 +6,8 @@
 - name: Install Docker Compose V2 plugin
   ansible.builtin.get_url:
     dest: /usr/libexec/docker/cli-plugins/docker-compose
-    mode: '0755'
+    mode: u=rwx,g=rx,o=rx
+    # This line violates our yamllint configuration, but there is no
+    # great way to make it shorter.
+    # yamllint disable-line rule:line-length
     url: https://github.com/docker/compose/releases/latest/download/docker-compose-{{ ansible_system }}-{{ ansible_architecture }}

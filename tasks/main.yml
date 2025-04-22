@@ -17,9 +17,9 @@
   vars:
     params:
       files:
-        - "setup_{{ ansible_distribution }}_{{ ansible_distribution_release }}.yml"
-        - "setup_{{ ansible_distribution }}.yml"
-        - "setup_{{ ansible_os_family }}.yml"
+        - setup_{{ ansible_distribution }}_{{ ansible_distribution_release }}.yml
+        - setup_{{ ansible_distribution }}.yml
+        - setup_{{ ansible_os_family }}.yml
       paths:
         - "{{ role_path }}/tasks"
   when:
