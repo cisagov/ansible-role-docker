@@ -10,5 +10,7 @@ collections:
 roles:
   - name: backports
     src: https://github.com/cisagov/ansible-role-backports
+  - name: debian_archive
+    src: https://github.com/cisagov/ansible-role-debian-archive
   - name: upgrade
     src: https://github.com/cisagov/ansible-role-upgrade
