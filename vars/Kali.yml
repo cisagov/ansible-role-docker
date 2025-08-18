@@ -7,22 +7,11 @@
 apt_distro: debian
 
 # The release of the Linux distribution to use when configuring a
-# Debian repo.  Note that we force Kali to use Debian Bookworm.  This
-# is because Docker does not provide an official package for Kali or
-# Debian Testing (on which Kali is based), but it does support
-# Bookworm which is close enough to work.
-apt_distro_release: bookworm
-
-# The system packages required for apt-over-https.
-apt_over_https_prerequisites:
-  - apt-transport-https
-  - ca-certificates
-  - curl
-  - gnupg2
-  - lsb-release
-  # This package is not available on Kali, but whatever it installs
-  # seems to already be present.
-  # - software-properties-common
+# Debian repo.  Note that we force Kali to use Debian Trixie.  This is
+# because Docker does not provide an official package for Kali or
+# Debian Testing (on which Kali is based), but it does support Trixie
+# which is close enough to work.
+apt_distro_release: trixie
 
 # The system packages required for Docker.
 #

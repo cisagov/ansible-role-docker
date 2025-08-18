@@ -220,12 +220,7 @@ jobs:
           - debian10-systemd
           - debian11-systemd
           - debian12-systemd
-          # TODO: Docker does not yet officially support Debian
-          # Trixie, but we should add support when that becomes
-          # possible.  See
-          # https://docs.docker.com/engine/install/debian/ and
-          # cisagov/ansible-role-docker#79 for more details.
-          # - debian13-systemd
+          - debian13-systemd
           - fedora41-systemd
           - fedora42-systemd
           - kali-systemd
