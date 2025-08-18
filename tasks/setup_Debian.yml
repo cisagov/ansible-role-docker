@@ -13,9 +13,10 @@
       - runc
     state: absent
 
-- name: Install prerequisites so apt can use a repo over HTTPS
+- name: Install gnupg2 (necessary for apt repo GPG key manipulations)
   ansible.builtin.package:
-    name: "{{ apt_over_https_prerequisites }}"
+    name:
+      - gnupg2
 
 # Debian Buster does not support DEB822 repos, so we have to treat it
 # as a special case.

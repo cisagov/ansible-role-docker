@@ -6,15 +6,6 @@ apt_distro: "{{ ansible_distribution | lower }}"
 # Debian repo.
 apt_distro_release: "{{ ansible_distribution_release }}"
 
-# The system packages required for apt-over-https.
-apt_over_https_prerequisites:
-  - apt-transport-https
-  - ca-certificates
-  - curl
-  - gnupg2
-  - lsb-release
-  - software-properties-common
-
 # The system packages required for Docker.
 #
 # https://docs.docker.com/engine/install/debian/
