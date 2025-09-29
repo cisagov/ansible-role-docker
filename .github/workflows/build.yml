@@ -221,7 +221,10 @@ jobs:
           - debian11-systemd
           - debian12-systemd
           - debian13-systemd
-          - debian14-systemd
+          # Docker does not yet officially support Debian Forky, but
+          # we should add support when that becomes possible.  See
+          # https://docs.docker.com/engine/install/debian/
+          # - debian14-systemd
           - fedora41-systemd
           - fedora42-systemd
           - kali-systemd

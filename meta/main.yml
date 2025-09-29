@@ -31,7 +31,10 @@ galaxy_info:
         - bullseye
         - bookworm
         - trixie
-        - forky
+        # Docker does not yet officially support Debian Forky, but we
+        # should add support when that becomes possible.  See
+        # https://docs.docker.com/engine/install/debian/
+        # - forky
     - name: Fedora
       versions:
         - "41"
