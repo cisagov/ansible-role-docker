@@ -1,6 +1,7 @@
 # ansible-role-docker #
 
-[![GitHub Build Status](https://github.com/cisagov/ansible-role-docker/workflows/build/badge.svg)](https://github.com/cisagov/ansible-role-docker)
+[![GitHub Build Status](https://github.com/cisagov/ansible-role-docker/workflows/build/badge.svg)](https://github.com/cisagov/ansible-role-docker/actions)
+[![License](https://img.shields.io/github/license/cisagov/ansible-role-docker)](https://spdx.org/licenses/)
 [![CodeQL](https://github.com/cisagov/ansible-role-docker/workflows/CodeQL/badge.svg)](https://github.com/cisagov/ansible-role-docker/actions/workflows/codeql-analysis.yml)
 
 An Ansible role for installing [Docker](https://www.docker.com/).
