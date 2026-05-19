@@ -18,23 +18,21 @@ def test_packages(host):
 
     if distribution in ["debian", "fedora", "kali", "ubuntu"]:
         assert all(
-            [
-                host.package(pkg).is_installed
-                for pkg in [
-                    "containerd.io",
-                    "docker-ce",
-                    "docker-ce-cli",
-                    "docker-buildx-plugin",
-                    "docker-compose-plugin",
-                    "pass",
-                    "python3-docker",
-                ]
+            host.package(pkg).is_installed
+            for pkg in [
+                "containerd.io",
+                "docker-ce",
+                "docker-ce-cli",
+                "docker-buildx-plugin",
+                "docker-compose-plugin",
+                "pass",
+                "python3-docker",
             ]
         )
     elif distribution in ["amzn"]:
-        assert all([host.package(pkg).is_installed for pkg in ["docker"]])
+        assert all(host.package(pkg).is_installed for pkg in ["docker"])
     else:
-        assert False, f"Unknown distribution {distribution}"
+        raise AssertionError(f"Unknown distribution {distribution}")
 
 
 @pytest.mark.parametrize("svc", ["docker"])
