@@ -32,7 +32,7 @@ def test_packages(host):
     elif distribution in ["amzn"]:
         assert all(host.package(pkg).is_installed for pkg in ["docker"])
     else:
-        assert False, f"Unknown distribution {distribution}"
+        raise AssertionError(f"Unknown distribution {distribution}")
 
 
 @pytest.mark.parametrize("svc", ["docker"])
