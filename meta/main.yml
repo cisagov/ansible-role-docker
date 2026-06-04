@@ -19,7 +19,10 @@ galaxy_info:
   # OS family.  This simplifies a lot of things for roles that support
   # Kali Linux, so it makes sense to force the installation of Ansible
   # 2.10 or newer.
-  min_ansible_version: "2.10"
+  #
+  # We use ansible.builtin.deb822_repository in this role, and this
+  # module was introduced in ansible-core 2.15.
+  min_ansible_version: "2.15"
   namespace: cisagov
   platforms:
     - name: Amazon Linux
